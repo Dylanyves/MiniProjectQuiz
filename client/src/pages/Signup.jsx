@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ButtonPrimary from "../components/ButtonPrimary";
 
 import Axios from "../share/axios";
+import Swal from "sweetalert2";
 
 function Signup(props) {
     const submitHandle = (e) => {
@@ -68,7 +69,12 @@ function Signup(props) {
         const res = await Axios.post("/signup", input);
         console.log(res);
 
-        navigate("/");
+        const valid = res.data.error;
+        if (!valid) {
+            Swal.fire(res.data.message);
+        } else {
+            navigate("/");
+        }
     };
 
     return (

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import ButtonPrimary from "../components/ButtonPrimary";
 
 import Axios from "../share/axios";
+import Swal from "sweetalert2";
 
 function Login() {
     const submitHandle = (e) => {
@@ -41,9 +42,19 @@ function Login() {
         fetchData();
     }, [isBlanks]);
 
+    const navigate = useNavigate();
+
     const fetchData = async () => {
         if (!isBlanks.username && !isBlanks.password) {
-            const res = await Axios.post("/login", input);
+            const res = await Axios.post("/login", input, {
+                withCredentials: true,
+            });
+
+            if (!res.data.success) {
+                Swal.fire(res.data.message);
+            } else {
+                navigate("/");
+            }
         }
     };
 

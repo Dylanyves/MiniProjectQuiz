@@ -12,22 +12,16 @@ import Profile from "./pages/Profile";
 import MyQuizzes from "./pages/MyQuizzes";
 import QuizEdit from "./pages/QuizEdit";
 
-import { useEffect } from "react";
-import Axios from "./share/axios";
-
 function App() {
-    useEffect(() => {
-        // Axios.get("/api").then((res) => console.log(res.data));
-    }, []);
     return (
         <div className="App bg-black min-h-screen">
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route path="/:id" element={<Quiz />} />
-                <Route path="/:id/play" element={<QuizPlay />} />
-                <Route path="/:id/result" element={<QuizResult />} />
+                <Route path="/quiz/:id" element={<Quiz />} />
+                <Route path="/quiz/:id/play" element={<QuizPlay />} />
+                <Route path="/quiz/:id/result" element={<QuizResult />} />
                 <Route path="/:username/profile" element={<Profile />} />
                 <Route path="/:username/quizzes" element={<MyQuizzes />} />
                 <Route path="/:username/:quid_id/edit" element={<QuizEdit />} />
