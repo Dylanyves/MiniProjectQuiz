@@ -28,6 +28,10 @@ function MyQuizzes(props) {
         });
     }, []);
 
+    const buttonHandle = () => {
+        navigate(`/${params.username}/5/edit`);
+    };
+
     const items = [
         {
             id: "f2adfl9nqfeijf",
@@ -60,10 +64,6 @@ function MyQuizzes(props) {
 
     const routeChange = (id) => {
         navigate(`/${params.username}/${id}/edit`);
-    };
-
-    const buttonHandle = () => {
-        navigate(`${params.username}/asdf/edit`);
     };
 
     return (

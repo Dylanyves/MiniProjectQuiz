@@ -71,8 +71,18 @@ function QuizResult(props) {
                     <div className="mt-6">
                         <p className="text-sm font-light mb-1">Accuracy</p>
                         <div className="w-full h-4 bg-gray rounded-sm relative">
-                            <div className="absolute top-0 left-0 h-4 w-[100%] bg-primary rounded-sm"></div>
-                            <div className="absolute w-6 h-6 top-[-3px] left-[95%] bg-primary rounded-sm"></div>
+                            <div
+                                style={{ width: `${score + 1}%` }}
+                                className="absolute top-0 left-0 h-4 w-[62%] bg-primary rounded-sm"
+                            ></div>
+                            <div
+                                style={{ width: `${100 - score}%` }}
+                                className="absolute top-0 right-0 h-4 w-[40%] bg-dark-gray rounded-sm"
+                            ></div>
+                            <div
+                                style={{ left: `${score}%` }}
+                                className={`absolute w-6 h-6 top-[-3px] bg-primary rounded-sm`}
+                            ></div>
                         </div>
                     </div>
                     <div className="flex justify-between my-12">

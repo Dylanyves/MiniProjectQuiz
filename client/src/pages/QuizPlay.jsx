@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, useNavigation } from "react-router-dom";
-import QuestionCard from "../components/QuestionCard";
+
+import "../../src/index.css";
 
 import Axios from "../share/axios";
 
@@ -26,7 +27,7 @@ function QuizPlay(props) {
                 });
             }
         });
-    }, [userAnswers]);
+    }, []);
 
     useEffect(() => {
         if (finished) {
@@ -61,23 +62,25 @@ function QuizPlay(props) {
     };
 
     const handleOptionClick = (e) => {
-        const nextQuestion = currentQuestion + 1;
+        setTimeout(() => {
+            const nextQuestion = currentQuestion + 1;
 
-        const answer = questions[currentQuestion].options.filter(
-            (e) => e.correct === 1
-        )[0].text;
+            const answer = questions[currentQuestion].options.filter(
+                (e) => e.correct === 1
+            )[0].text;
 
-        const questionId = questions[currentQuestion].id;
-        const userAnswer = e.target.textContent;
-        console.log(answer, userAnswer);
+            const questionId = questions[currentQuestion].id;
+            const userAnswer = e.target.textContent;
+            console.log(answer, userAnswer);
 
-        if (nextQuestion < questions.length) {
-            checkAnswer(questionId, answer, userAnswer);
-            setCurrentQuestion(nextQuestion);
-        } else {
-            checkAnswer(questionId, answer, userAnswer);
-            setFinished(true);
-        }
+            if (nextQuestion < questions.length) {
+                checkAnswer(questionId, answer, userAnswer);
+                setCurrentQuestion(nextQuestion);
+            } else {
+                checkAnswer(questionId, answer, userAnswer);
+                setFinished(true);
+            }
+        }, 0);
     };
 
     return (
@@ -85,7 +88,10 @@ function QuizPlay(props) {
             {finished ? null : (
                 <div className="text-white text-center max-w-lg m-auto h-[38rem] relative top-10">
                     {questions ? (
-                        <div className="bg-dark-gray mx-4 rounded-sm p-5 h-full">
+                        <div
+                            key={currentQuestion}
+                            className="bg-dark-gray mx-4 rounded-sm p-5 h-full card-animation"
+                        >
                             <div>
                                 <p className="font-light text-sm mb-6">
                                     {currentQuestion + 1} of {questions.length}

@@ -24,7 +24,7 @@ function App() {
                 <Route path="/quiz/:id/result" element={<QuizResult />} />
                 <Route path="/:username/profile" element={<Profile />} />
                 <Route path="/:username/quizzes" element={<MyQuizzes />} />
-                <Route path="/:username/:quid_id/edit" element={<QuizEdit />} />
+                <Route path="/:username/:quiz_id/edit" element={<QuizEdit />} />
             </Routes>
         </div>
     );

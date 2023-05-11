@@ -24,17 +24,23 @@ function Quiz(props) {
     };
 
     useEffect(() => {
-        setTimeout(() => {
-            Axios.get(`/quiz/${currentPath.id}`).then((res) => {
-                if (res.data.data) {
-                    setLoading(false);
-                    setFound(true);
-                    setQuiz(res.data.data.quizzes[0]);
-                } else {
-                    setLoading(false);
-                }
-            });
-        }, 1500);
+        Axios.get("/me", { withCredentials: true }).then((response) => {
+            if (!response.data.success) {
+                navigate("/login");
+            } else {
+                setTimeout(() => {
+                    Axios.get(`/quiz/${currentPath.id}`).then((res) => {
+                        if (res.data.data) {
+                            setLoading(false);
+                            setFound(true);
+                            setQuiz(res.data.data.quizzes[0]);
+                        } else {
+                            setLoading(false);
+                        }
+                    });
+                }, 1500);
+            }
+        });
     }, []);
 
     const renderBody = () => {
