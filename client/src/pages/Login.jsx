@@ -53,6 +53,13 @@ function Login() {
             if (!res.data.success) {
                 Swal.fire(res.data.message);
             } else {
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify({
+                        id: res.data.data.id,
+                        username: res.data.data.username,
+                    })
+                );
                 navigate("/");
             }
         }

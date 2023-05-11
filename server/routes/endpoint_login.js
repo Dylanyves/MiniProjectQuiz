@@ -23,7 +23,7 @@ module.exports = (req, res) => {
                             userId: rows[0].id,
                         },
                         "ZJGX1QL7ri6BGJWj3t",
-                        { expiresIn: "1h" }
+                        { expiresIn: "24h" }
                     );
                     res.cookie("user", token);
                     res.json({

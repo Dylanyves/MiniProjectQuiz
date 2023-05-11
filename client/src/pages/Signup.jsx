@@ -69,11 +69,25 @@ function Signup(props) {
         const res = await Axios.post("/signup", input);
         console.log(res);
 
-        const valid = res.data.error;
+        const valid = res.data.success;
+        console.log(valid);
         if (!valid) {
             Swal.fire(res.data.message);
         } else {
-            navigate("/");
+            localStorage.setItem(
+                "user",
+                JSON.stringify({
+                    username: res.data.username,
+                })
+            );
+            Swal.fire({
+                icon: "success",
+                title: "Your account has been created",
+                timer: 2000,
+            });
+            setTimeout(() => {
+                navigate("/");
+            }, 2000);
         }
     };
 

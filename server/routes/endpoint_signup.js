@@ -1,9 +1,11 @@
 const bcrypt = require("bcrypt");
+const mysql = require("mysql2");
 
 module.exports = async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
+    const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     const hashed_password = await bcrypt.hash(password, salt);
 
@@ -13,23 +15,31 @@ module.exports = async (req, res) => {
     const getQuery = `SELECT * FROM users WHERE username = "${username}"`;
 
     connection.query(getQuery, (err, rows) => {
+        console.log("signup");
         if (err) {
-            res.json({ error: true, message: err.message });
+            res.json({ success: false, message: err.message });
         } else {
             if (rows.length == 0) {
                 const postQuery = mysql.format(
                     "INSERT INTO users (username, hashed_password, created_at) VALUES (?, ?, ?)",
                     [username, hashed_password, created_at]
                 );
-                connection.query(postQuery, (err, rows) => {
+                connection.query(postQuery, (err, _) => {
                     if (err) {
-                        res.json({ success: "false", message: err.message });
+                        res.json({ success: false, message: err.message });
                     } else {
-                        res.json({ success: true, message: "successful" });
+                        res.json({
+                            success: true,
+                            message: "successful",
+                            username: username,
+                        });
                     }
                 });
             } else {
-                res.json({ error: false, message: "Username is already used" });
+                res.json({
+                    success: false,
+                    message: "Username is already used",
+                });
                 console.log("Username is already used");
             }
         }

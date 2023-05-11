@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import ButtonPrimary from "../components/ButtonPrimary";
@@ -11,61 +11,29 @@ function Home(props) {
     const [quizzes, setQuizzes] = useState();
 
     useEffect(() => {
-        const res = Axios.get("/me", { withCredentials: true }).then(
-            (response) => {
-                if (!response.data.success) {
-                    // navigate to login
-                    navigate("/login");
-                } else {
-                    const _ = Axios.get("/").then((response) => {
-                        setQuizzes(response.data.data.quizzes);
-                    });
-                }
+        Axios.get("/me", { withCredentials: true }).then((response) => {
+            if (!response.data.success) {
+                navigate("/login");
+            } else {
+                const _ = Axios.get("/").then((response) => {
+                    setQuizzes(response.data.data.quizzes);
+                });
             }
-        );
+        });
     }, []);
 
-    const [code, setCode] = useState("");
+    const inputCode = useRef();
 
     const submitHandle = (e) => {
         e.preventDefault();
-        console.log(code);
+        const path = `/quiz/${inputCode.current.value}`;
+        navigate(path);
     };
 
     const routeChange = (id) => {
         const path = `/quiz/${id}`;
         navigate(path);
     };
-
-    const items = [
-        {
-            id: "f2adfl9nqfeijf",
-            username: "Barbara Oakley",
-            title: "Guess The Capital City",
-            description:
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore ut expedita autem dicta praesentium libero earum soluta aut non. Laudantium sit corporis, numquam tempora necessitatibus qui quisquam fuga sapiente pariatur.",
-            tags: ["General", "Geography"],
-            numOfQuestions: 10,
-        },
-        {
-            id: "po4nadfdobqfnbi4",
-            username: "Kimberley Brehm",
-            title: "Basic 10th Grade Math",
-            description:
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore ut expedita autem dicta praesentium libero earum soluta aut non. Laudantium sit corporis, numquam tempora necessitatibus qui quisquam fuga sapiente pariatur.",
-            tags: ["Logic", "Math"],
-            numOfQuestions: 15,
-        },
-        {
-            id: "iooaadfibnefnbkd",
-            username: "Mike Tyson",
-            title: "Everything About Boxing Knowledge",
-            description:
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore ut expedita autem dicta praesentium libero earum soluta aut non. Laudantium sit corporis, numquam tempora necessitatibus qui quisquam fuga sapiente pariatur.",
-            tags: ["Sports", "Boxing"],
-            numOfQuestions: 20,
-        },
-    ];
 
     return (
         <div>
@@ -77,6 +45,7 @@ function Home(props) {
                     onSubmit={submitHandle}
                 >
                     <input
+                        ref={inputCode}
                         type="text"
                         placeholder="Enter Quiz Code"
                         className="w-full md:col-span-4 text-white bg-black rounded-full mb-8 py-2 px-4 text-xl focus:border-white focus:outline-none focus:placeholder:text-white placeholder:text-gray-400"

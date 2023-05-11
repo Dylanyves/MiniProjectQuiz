@@ -2,14 +2,16 @@ const getQuiz = require("../functions/getQuiz");
 
 module.exports = async (req, res) => {
     try {
-        const type = 1;
-        const data = await getQuiz(1);
+        const { userId } = req.params;
+        const type = 3;
+
+        const data = await getQuiz(type, userId);
         res.json(data);
-    } catch (error) {
+    } catch (err) {
         res.status(500).json({
             success: false,
             data: null,
-            message: error.message,
+            message: err.message,
         });
     }
 };

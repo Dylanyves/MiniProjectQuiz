@@ -16,7 +16,7 @@ function QuizResult(props) {
     const param = useParams();
 
     const restartButton = () => {
-        navigate(`/${param.id}`);
+        navigate(`/quiz/${param.id}`);
     };
 
     const homeButton = () => {
@@ -27,39 +27,33 @@ function QuizResult(props) {
     const correctClasses = "border-tertiary-g " + reviewClasses;
     const incorrectClasses = "border-tertiary-r " + reviewClasses;
 
-    const renderOption = (option, { userAnswer, isCorrect }) => {
-        if (userAnswer == option.optionText && isCorrect) {
+    const renderOption = (option, { userAnswer, correct }) => {
+        if (userAnswer == option.text && correct) {
             return (
                 <>
                     <i className="fa-regular fa-circle-dot mr-2 text-tertiary-g"></i>
-                    <p className="inline text-tertiary-g">
-                        {option.optionText}
-                    </p>
+                    <p className="inline text-tertiary-g">{option.text}</p>
                 </>
             );
-        } else if (userAnswer == option.optionText && !isCorrect) {
+        } else if (userAnswer == option.text && !correct) {
             return (
                 <>
                     <i className="fa-regular fa-circle-dot mr-2 text-tertiary-r"></i>
-                    <p className="inline text-tertiary-r">
-                        {option.optionText}
-                    </p>
+                    <p className="inline text-tertiary-r">{option.text}</p>
                 </>
             );
-        } else if (!isCorrect && option.correct) {
+        } else if (!correct && option.correct) {
             return (
                 <>
                     <i className="fa-regular fa-circle mr-2 text-tertiary-g"></i>
-                    <p className="inline text-tertiary-g">
-                        {option.optionText}
-                    </p>
+                    <p className="inline text-tertiary-g">{option.text}</p>
                 </>
             );
         } else {
             return (
                 <>
                     <i className="fa-regular fa-circle mr-2"></i>
-                    <p className="inline">{option.optionText}</p>
+                    <p className="inline">{option.text}</p>
                 </>
             );
         }
@@ -113,14 +107,14 @@ function QuizResult(props) {
                             return (
                                 <div
                                     className={
-                                        state.userAnswers[question.id].isCorrect
+                                        state.userAnswers[question.id].correct
                                             ? correctClasses
                                             : incorrectClasses
                                     }
                                     key={question.id}
                                 >
                                     <p className="font-light mb-3 border-b border-light-gray border-opacity-30 pb-3">
-                                        {question.questionText}
+                                        {question.text}
                                     </p>
                                     <ul className="space-y-2">
                                         {question.options.map(

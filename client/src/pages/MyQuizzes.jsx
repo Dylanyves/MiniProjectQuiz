@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import ButtonPrimary from "../components/ButtonPrimary";
 
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
+import Axios from "../share/axios";
+
 function MyQuizzes(props) {
+    const navigate = useNavigate();
+    const params = useParams();
+    const [quizzes, setQuizzes] = useState();
+
+    useEffect(() => {
+        Axios.get("/me", { withCredentials: true }).then((response) => {
+            if (!response.data.success) {
+                navigate("/login");
+            } else {
+                const user = JSON.parse(localStorage.getItem("user"));
+
+                Axios.get(`/${user.id}/quizzes`).then((res) => {
+                    if (res.data.success) {
+                        setQuizzes(res.data.data.quizzes);
+                    }
+                });
+            }
+        });
+    }, []);
+
     const items = [
         {
             id: "f2adfl9nqfeijf",
@@ -36,9 +58,6 @@ function MyQuizzes(props) {
         },
     ];
 
-    const navigate = useNavigate();
-    const params = useParams();
-
     const routeChange = (id) => {
         navigate(`/${params.username}/${id}/edit`);
     };
@@ -52,47 +71,49 @@ function MyQuizzes(props) {
             <Navbar />
             <div className="p-8 max-w-7xl m-auto">
                 <h1 className="text-white text-3xl mb-12">My Quizzes</h1>
-                <div className="text-white gap-y-14 sm:gap-x-14 grid md:grid-cols-2 xl:grid-cols-3">
-                    {items.map((item, index) => {
-                        return (
-                            <div
-                                key={item.id}
-                                onClick={(e) => routeChange(item.id)}
-                                className="h-full w-full m-auto border-b cursor-pointer pb-4 border-gray-500 hover:border-white duration-200"
-                            >
-                                <div>
-                                    <div className="mb-4">
-                                        <div className="mb-2">
-                                            <h4 className="text-xl font-light">
-                                                {item.title}
-                                            </h4>
+                {quizzes ? (
+                    <div className="text-white gap-y-14 sm:gap-x-14 grid md:grid-cols-2 xl:grid-cols-3">
+                        {quizzes.map((quiz, index) => {
+                            return (
+                                <div
+                                    key={quiz.id}
+                                    onClick={(e) => routeChange(quiz.id)}
+                                    className="h-full w-full m-auto border-b cursor-pointer pb-4 border-gray-500 hover:border-white duration-200"
+                                >
+                                    <div>
+                                        <div className="mb-4">
+                                            <div className="mb-2">
+                                                <h4 className="text-xl font-light">
+                                                    {quiz.title}
+                                                </h4>
+                                            </div>
+                                            <p className="font-light text-light-gray">
+                                                {quiz.description}
+                                            </p>
                                         </div>
-                                        <p className="font-light text-light-gray">
-                                            {item.description}
-                                        </p>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <ul className="space-x-3">
-                                            {item.tags.map((tag, index) => {
-                                                return (
-                                                    <li
-                                                        key={index}
-                                                        className="inline text-sm font-light text-primary"
-                                                    >
-                                                        {tag}
-                                                    </li>
-                                                );
-                                            })}
-                                        </ul>
-                                        <p className="text-sm font-light">
-                                            {item.numOfQuestions} Questions
-                                        </p>
+                                        <div className="flex justify-between items-center">
+                                            <ul className="space-x-3">
+                                                {quiz.tags.map((tag, index) => {
+                                                    return (
+                                                        <li
+                                                            key={index}
+                                                            className="inline text-sm font-light text-primary"
+                                                        >
+                                                            {tag}
+                                                        </li>
+                                                    );
+                                                })}
+                                            </ul>
+                                            <p className="text-sm font-light">
+                                                {quiz.total_questions} Questions
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                </div>
+                            );
+                        })}
+                    </div>
+                ) : null}
                 <div onClick={buttonHandle} className="mt-12">
                     <ButtonPrimary text="Create Quiz" />
                 </div>

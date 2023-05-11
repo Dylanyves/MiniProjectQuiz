@@ -34,6 +34,8 @@ app.use(bodyParser.json({ type: "application/json" }));
 app.post("/signup", require("./routes/endpoint_signup"));
 app.post("/login", require("./routes/endpoint_login"));
 app.get("/quiz/:quiz_id", require("./routes/endpoint_quiz_quizId"));
+app.get("/getQuizData/:quiz_id", require("./routes/endpoint_getQuizData"));
+app.get("/:userId/quizzes", require("./routes/endpoint_myquizzes"));
 app.get("/me", require("./routes/endpoint_me"));
 app.get("/", require("./routes/endpoint_home"));
 
