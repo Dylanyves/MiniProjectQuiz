@@ -38,11 +38,15 @@ function QuizEdit(props) {
                 navigate("/login");
             } else {
                 Axios.get(`/getQuizData/${currentPath.quiz_id}`).then((res) => {
-                    setData(res.data);
-                    setQuestions(res.data.questions);
-                    setTags(res.data.tags);
-                    setTitle(res.data.title);
-                    setDescription(res.data.description);
+                    if (res.data.id) {
+                        setData(res.data);
+                        setQuestions(res.data.questions);
+                        setTags(res.data.tags);
+                        setTitle(res.data.title);
+                        setDescription(res.data.description);
+                    } else {
+                        navigate("/notFound");
+                    }
                 });
             }
         });
@@ -271,7 +275,11 @@ function QuizEdit(props) {
             return;
         } else {
             //Update the title
-            Axios.patch(`/updateTitle/${data.id}`, { title: title });
+            Axios.patch(`/updateTitle/${data.id}`, { title: title }).then(
+                (res) => {
+                    setTitle(res.data.title);
+                }
+            );
         }
     };
 
@@ -284,6 +292,8 @@ function QuizEdit(props) {
             //Update the description
             Axios.patch(`/updateDescription/${data.id}`, {
                 description: description,
+            }).then((res) => {
+                setDescription(res.data.description);
             });
         }
     };
@@ -302,12 +312,21 @@ function QuizEdit(props) {
         }
     };
 
+    const updateTotalQuestions = () => {
+        Axios.patch("/updateTotalQuestions", {
+            data: { quiz_id: data.id, total_questions: questions.length },
+        }).then((res) => {
+            // console.log(res);
+        });
+    };
+
     const submitQuiz = (e) => {
         e.preventDefault();
 
         updateTitle();
         updateDescription();
         addTag();
+        updateTotalQuestions();
 
         const user = JSON.parse(localStorage.getItem("user")).username;
         navigate(`/${user}/quizzes`);

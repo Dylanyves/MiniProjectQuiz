@@ -67,7 +67,7 @@ function Signup(props) {
 
     const postData = async () => {
         const res = await Axios.post("/signup", input);
-        console.log(res);
+        console.log(res.data);
 
         const valid = res.data.success;
         console.log(valid);
@@ -77,7 +77,8 @@ function Signup(props) {
             localStorage.setItem(
                 "user",
                 JSON.stringify({
-                    username: res.data.username,
+                    id: res.data.data.id,
+                    username: res.data.data.username,
                 })
             );
             Swal.fire({
@@ -86,7 +87,7 @@ function Signup(props) {
                 timer: 2000,
             });
             setTimeout(() => {
-                navigate("/");
+                navigate("/login");
             }, 2000);
         }
     };

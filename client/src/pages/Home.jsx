@@ -38,7 +38,7 @@ function Home(props) {
     return (
         <div>
             <Navbar />
-            <div className="max-w-7xl m-auto p-6">
+            <div className="max-w-7xl m-auto p-6 pb-20">
                 <form
                     action="submit"
                     className="mb-20 md:mb-4 grid md:grid-cols-5 md:gap-x-4"

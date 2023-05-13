@@ -42,7 +42,7 @@ function Navbar(props) {
                         className="md:hidden"
                     >
                         {navActive ? (
-                            <i class="fa-solid fa-xmark cursor-pointer text-lg"></i>
+                            <i className="fa-solid fa-xmark cursor-pointer text-lg"></i>
                         ) : (
                             <i className="fa-solid fa-bars cursor-pointer"></i>
                         )}

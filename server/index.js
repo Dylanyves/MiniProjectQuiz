@@ -58,6 +58,10 @@ app.patch(
     "/updateOptionBoolean",
     require("./routes/endpoint_updateOptionBoolean")
 );
+app.patch(
+    "/updateTotalQuestions",
+    require("./routes/endpoint_updateTotalQuestions")
+);
 
 app.delete("/deleteQuestion", require("./routes/endpoint_deleteQuestion"));
 app.delete("/deleteOption", require("./routes/endpoint_deleteOption"));

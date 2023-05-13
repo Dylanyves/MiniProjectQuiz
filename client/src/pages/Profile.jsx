@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 import ButtonPrimary from "../components/ButtonPrimary";
 import ButtonSecondary from "../components/ButtonSecondary";
+import { useCookies } from "react-cookie";
 
 import ReactLoading from "react-loading";
 
@@ -14,8 +15,13 @@ function Profile(props) {
     const quizNavigate = () => {
         navigate(`/${params.username}/quizzes`);
     };
+    const [cookies, setCookie, removeCookie] = useCookies();
 
     const logout = () => {
+        Object.keys(cookies).forEach((cookieName) => {
+            removeCookie(cookieName);
+        });
+        localStorage.clear();
         navigate("/login");
     };
 

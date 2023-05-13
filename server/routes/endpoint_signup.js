@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const mysql = require("mysql2");
-var jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res) => {
     const username = req.body.username;
@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     const hashed_password = await bcrypt.hash(password, salt);
 
     const now = new Date();
-    const created_at = `${now.getFullYear()}-${now.getMonth()}-${now.getDay()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+    const created_at = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
 
     const getQuery = `SELECT * FROM users WHERE username = "${username}"`;
 
@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
         if (err) {
             res.json({ success: false, message: err.message });
         } else {
-            if (rows.length == 0) {
+            if (rows.length === 0) {
                 const postQuery = mysql.format(
                     "INSERT INTO users (username, hashed_password, created_at) VALUES (?, ?, ?)",
                     [username, hashed_password, created_at]
@@ -50,7 +50,10 @@ module.exports = async (req, res) => {
                                         "ZJGX1QL7ri6BGJWj3t",
                                         { expiresIn: "24h" }
                                     );
-                                    res.cookie("user", token);
+                                    res.cookie("user", token, {
+                                        httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
+                                        // Add more options if needed (e.g., secure: true for HTTPS)
+                                    });
                                     res.json({
                                         success: true,
                                         message:
