@@ -11,6 +11,7 @@ import QuizResult from "./pages/QuizResult";
 import Profile from "./pages/Profile";
 import MyQuizzes from "./pages/MyQuizzes";
 import QuizEdit from "./pages/QuizEdit";
+import NotFound from "./pages/NotFound";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/:username/profile" element={<Profile />} />
                 <Route path="/:username/quizzes" element={<MyQuizzes />} />
                 <Route path="/:username/:quiz_id/edit" element={<QuizEdit />} />
+                <Route path="/*" element={<NotFound />} />
             </Routes>
         </div>
     );

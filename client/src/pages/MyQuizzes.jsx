@@ -11,6 +11,7 @@ function MyQuizzes(props) {
     const navigate = useNavigate();
     const params = useParams();
     const [quizzes, setQuizzes] = useState();
+    const [newQuizId, setNewQuizId] = useState();
 
     useEffect(() => {
         Axios.get("/me", { withCredentials: true }).then((response) => {
@@ -29,38 +30,18 @@ function MyQuizzes(props) {
     }, []);
 
     const buttonHandle = () => {
-        navigate(`/${params.username}/5/edit`);
+        const user = JSON.parse(localStorage.getItem("user"));
+        Axios.post("/createQuiz", {
+            data: {
+                user_id: user.id,
+                title: "Your quiz title here",
+                description: "Your quiz description here",
+                total_question: 1,
+            },
+        }).then((res) => {
+            navigate(`/${params.username}/${res.data.quizId}/edit`);
+        });
     };
-
-    const items = [
-        {
-            id: "f2adfl9nqfeijf",
-            name: "Barbara Oakley",
-            title: "Guess The Capital City",
-            description:
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore ut expedita autem dicta praesentium libero earum soluta aut non. Laudantium sit corporis, numquam tempora necessitatibus qui quisquam fuga sapiente pariatur.",
-            tags: ["General", "Geography"],
-            numOfQuestions: 10,
-        },
-        {
-            id: "po4nadfdobqfnbi4",
-            name: "Kimberley Brehm",
-            title: "Basic 10th Grade Math",
-            description:
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore ut expedita autem dicta praesentium libero earum soluta aut non. Laudantium sit corporis, numquam tempora necessitatibus qui quisquam fuga sapiente pariatur.",
-            tags: ["Logic", "Math"],
-            numOfQuestions: 15,
-        },
-        {
-            id: "iooaadfibnefnbkd",
-            name: "Mike Tyson",
-            title: "Everything About Boxing Knowledge",
-            description:
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore ut expedita autem dicta praesentium libero earum soluta aut non. Laudantium sit corporis, numquam tempora necessitatibus qui quisquam fuga sapiente pariatur.",
-            tags: ["Sports", "Boxing"],
-            numOfQuestions: 20,
-        },
-    ];
 
     const routeChange = (id) => {
         navigate(`/${params.username}/${id}/edit`);

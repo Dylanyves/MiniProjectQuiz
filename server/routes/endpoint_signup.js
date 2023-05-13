@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const mysql = require("mysql2");
+var jwt = require("jsonwebtoken");
 
 module.exports = async (req, res) => {
     const username = req.body.username;
@@ -15,7 +16,6 @@ module.exports = async (req, res) => {
     const getQuery = `SELECT * FROM users WHERE username = "${username}"`;
 
     connection.query(getQuery, (err, rows) => {
-        console.log("signup");
         if (err) {
             res.json({ success: false, message: err.message });
         } else {
@@ -24,15 +24,42 @@ module.exports = async (req, res) => {
                     "INSERT INTO users (username, hashed_password, created_at) VALUES (?, ?, ?)",
                     [username, hashed_password, created_at]
                 );
-                connection.query(postQuery, (err, _) => {
-                    if (err) {
-                        res.json({ success: false, message: err.message });
+                connection.query(postQuery, (err2, result) => {
+                    if (err2) {
+                        res.json({ success: false, message: err2.message });
                     } else {
-                        res.json({
-                            success: true,
-                            message: "successful",
-                            username: username,
-                        });
+                        const getUser = mysql.format(
+                            "SELECT * FROM users WHERE username = ?",
+                            [username]
+                        );
+
+                        connection.query(
+                            getUser,
+                            [result.insertId],
+                            (err3, result1) => {
+                                if (err3) {
+                                    res.json({
+                                        success: false,
+                                        message: err3.message,
+                                    });
+                                } else {
+                                    const token = jwt.sign(
+                                        {
+                                            userId: result1[0].id,
+                                        },
+                                        "ZJGX1QL7ri6BGJWj3t",
+                                        { expiresIn: "24h" }
+                                    );
+                                    res.cookie("user", token);
+                                    res.json({
+                                        success: true,
+                                        message:
+                                            "Register credential is correct",
+                                        data: result1[0],
+                                    });
+                                }
+                            }
+                        );
                     }
                 });
             } else {

@@ -23,7 +23,7 @@ function QuizPlay(props) {
                 navigate("/login");
             } else {
                 Axios.get(`/getQuizData/${currentPath.id}`).then((res) => {
-                    setQuestions(res.data);
+                    setQuestions(res.data.questions);
                 });
             }
         });
@@ -37,7 +37,6 @@ function QuizPlay(props) {
                     totalQuestions: questions.length,
                     totalCorrect: totalCorrect,
                     totalIncorrect: totalIncorrect,
-                    timeTaken: 6,
                     userAnswers: userAnswers,
                     quiz: questions,
                 },
@@ -71,7 +70,6 @@ function QuizPlay(props) {
 
             const questionId = questions[currentQuestion].id;
             const userAnswer = e.target.textContent;
-            console.log(answer, userAnswer);
 
             if (nextQuestion < questions.length) {
                 checkAnswer(questionId, answer, userAnswer);

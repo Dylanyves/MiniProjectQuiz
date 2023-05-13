@@ -80,7 +80,7 @@ function QuizResult(props) {
                                 className="absolute top-0 right-0 h-4 w-[40%] bg-dark-gray rounded-sm"
                             ></div>
                             <div
-                                style={{ left: `${score}%` }}
+                                style={{ left: `${score - 1}%` }}
                                 className={`absolute w-6 h-6 top-[-3px] bg-primary rounded-sm`}
                             ></div>
                         </div>
