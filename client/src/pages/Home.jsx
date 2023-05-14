@@ -63,23 +63,27 @@ function Home(props) {
                                     <div
                                         key={quiz.id}
                                         onClick={(e) => routeChange(quiz.id)}
-                                        className="h-full w-full m-auto border-b cursor-pointer pb-4 border-gray-500 hover:border-white duration-200"
+                                        className="group h-full w-full m-auto border-b cursor-pointer pb-4 border-gray-500 hover:border-white duration-200"
                                     >
                                         <div>
-                                            <div className="mb-4">
-                                                <div className="text-end mb-2 space-x-2">
+                                            <div className="mb-8">
+                                                <div className="text-end mb-4 space-x-2">
                                                     <i className="fa-solid fa-user text-xs text-light-gray"></i>
-                                                    <p className="text-sm font-light text-light-gray inline">
+                                                    <p className="text-sm font-light text-light-gray inline group-hover:text-white ease duration-200">
                                                         {quiz.username}
                                                     </p>
                                                 </div>
-                                                <div className="mb-2 items-center justify-between flex">
+                                                <div className="mb-3 items-center justify-between flex">
                                                     <h4 className="text-lg font-light">
                                                         {quiz.title}
                                                     </h4>
                                                 </div>
-                                                <p className="font-light text-light-gray">
-                                                    {quiz.description}
+                                                <p className="font-light text-light-gray group-hover:text-white ease duration-200">
+                                                    {quiz.description.slice(
+                                                        0,
+                                                        175
+                                                    )}
+                                                    ...
                                                 </p>
                                             </div>
                                             <div className="flex justify-between items-center">

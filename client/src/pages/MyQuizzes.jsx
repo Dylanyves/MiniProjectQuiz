@@ -65,7 +65,7 @@ function MyQuizzes(props) {
                                 <div
                                     key={quiz.id}
                                     onClick={(e) => routeChange(quiz.id)}
-                                    className="h-full w-full m-auto border-b cursor-pointer pb-4 border-gray-500 hover:border-white duration-200"
+                                    className="group h-full w-full m-auto border-b cursor-pointer pb-4 border-gray-500 hover:border-white duration-200"
                                 >
                                     <div>
                                         <div className="mb-4">
@@ -74,8 +74,9 @@ function MyQuizzes(props) {
                                                     {quiz.title}
                                                 </h4>
                                             </div>
-                                            <p className="font-light text-light-gray">
-                                                {quiz.description}
+                                            <p className="font-light text-light-gray group-hover:text-white ease duration-200">
+                                                {quiz.description.slice(0, 175)}
+                                                ...
                                             </p>
                                         </div>
                                         <div className="flex justify-between items-center">
