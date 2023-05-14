@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
                                 quiz_id: quiz_id,
                                 question_id: newQuestionId,
                                 text: "Option 1",
-                                correct: true,
+                                correct: 1,
                             };
 
                             res.json({

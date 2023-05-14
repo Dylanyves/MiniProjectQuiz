@@ -26,7 +26,6 @@ const getQuiz = async (type, id) => {
                     message: "There is no data",
                 });
             } else {
-                console.log(rows);
                 const getTags = `SELECT * FROM tags`;
 
                 connection.query(getTags, (error, tags) => {

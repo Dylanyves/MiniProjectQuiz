@@ -11,6 +11,7 @@ function MyQuizzes(props) {
     const navigate = useNavigate();
     const params = useParams();
     const [quizzes, setQuizzes] = useState();
+    const [isEmpty, setIsEmpty] = useState(false);
     const [newQuizId, setNewQuizId] = useState();
 
     useEffect(() => {
@@ -21,8 +22,10 @@ function MyQuizzes(props) {
                 const user = JSON.parse(localStorage.getItem("user"));
 
                 Axios.get(`/${user.id}/quizzes`).then((res) => {
-                    if (res.data.success) {
+                    if (res.data.success && res.data.data) {
                         setQuizzes(res.data.data.quizzes);
+                    } else {
+                        setIsEmpty(true);
                     }
                 });
             }
@@ -52,6 +55,9 @@ function MyQuizzes(props) {
             <Navbar />
             <div className="p-8 max-w-7xl m-auto">
                 <h1 className="text-white text-3xl mb-12">My Quizzes</h1>
+                {isEmpty ? (
+                    <p className="text-primary">You don't have any quiz</p>
+                ) : null}
                 {quizzes ? (
                     <div className="text-white gap-y-14 sm:gap-x-14 grid md:grid-cols-2 xl:grid-cols-3">
                         {quizzes.map((quiz, index) => {

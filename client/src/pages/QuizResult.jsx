@@ -10,7 +10,6 @@ function QuizResult(props) {
     const { state } = useLocation();
 
     const score = Math.round((100 / state.totalQuestions) * state.totalCorrect);
-    console.log(state);
 
     const navigate = useNavigate();
     const param = useParams();

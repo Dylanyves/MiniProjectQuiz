@@ -67,7 +67,6 @@ function Signup(props) {
 
     const postData = async () => {
         const res = await Axios.post("/signup", input);
-        console.log(res.data);
 
         const valid = res.data.success;
         console.log(valid);
