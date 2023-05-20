@@ -18,10 +18,21 @@ https://youtu.be/tqAUkAz7LgA
 
 ---
 
+### Technology used
+
+-   **Front-end** -> React
+-   **Back-end** -> Node js, Express js
+-   **Database** -> MariaDB
+-   Other -> TailwindCSS
+
+---
+
 ### How to run the application?
 
 -   Front-end -> go to _./client_ and run `npm start`
 -   Back-end -> go to _./server_ and run `npm run devStart`
+
+---
 
 \
 Images
