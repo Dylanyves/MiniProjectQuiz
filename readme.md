@@ -38,6 +38,7 @@ Quiz play page
 \
 Quiz result page
 ![Quiz result 1](img/quiz-result-1.png)
+\
 Quiz result page
 ![Quiz result 2](img/quiz-result-2.png)
 My quizzes page
