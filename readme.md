@@ -18,39 +18,56 @@ https://youtu.be/tqAUkAz7LgA
 
 ---
 
+### How to run the application?
+
+-   Front-end -> go to _./client_ and run `npm start`
+-   Back-end -> go to _./server_ and run `npm run devStart`
+
 \
 Images
+
 \
 Login page
 ![Login](img/login.png)
+
 \
 Signup page
 ![Signup](img/signup.png)
 \
+
 Home page
 ![Home](img/home.png)
 \
+
 Quiz page
 ![Quiz](img/quiz.png)
 \
+
 Quiz play page
 ![Quiz play](img/quiz-play.png)
 \
+
 Quiz result page
 ![Quiz result 1](img/quiz-result-1.png)
 \
+
 Quiz result page
 ![Quiz result 2](img/quiz-result-2.png)
+\
+
 My quizzes page
 ![My quizzes](img/my-quizzes.png)
 \
+
 Profile page
 ![Profile](img/profile.png)
 \
+
 ![Quiz edit 1](img/quiz-edit-1.png)
 Quiz edit page
 ![Quiz edit 2](img/quiz-edit-2.png)
 \
+
 404 page
 ![404](img/404.png)
 
